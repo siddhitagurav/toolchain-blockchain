@@ -1,0 +1,102 @@
+
+/*rule EverybodyCanReadEverything {
+    description: "Allow all participants read access to all resources"
+    participant: "org.example.basic.SampleParticipant"
+    operation: READ
+    resource: "org.example.basic.*"
+    action: ALLOW
+}
+
+rule EverybodyCanSubmitTransactions {
+    description: "Allow all participants to submit transactions"
+    participant: "org.diemanufacturing.Raw_Material_Supplier"
+    operation: CREATE
+    resource: "org.diemanufacturing.supply_rawmaterial"
+    action: ALLOW
+}*/
+
+rule RawMaterialSupplier {
+    description: "Allow  participants full access to their assets"
+    participant(p): "org.diemanufacturing.Raw_Material_Supplier"
+    operation: ALL
+    resource(r): "org.diemanufacturing.Raw_Material"
+    transaction(tx): "org.diemanufacturing.supply_rawmaterial"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule RawMaterialSupplier1 {
+    description: "Allow  participants full access to their assets"
+    participant(p): "org.diemanufacturing.Raw_Material_Supplier"
+    operation: ALL
+    resource(r): "org.diemanufacturing.place_order_of_Rawmaterial"
+    transaction(tx): "org.diemanufacturing.place_manufacturer_rawmaterial"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule RawMaterialSupplier2 {
+    description: "Allow  participants full access to their assets"
+    participant(p): "org.diemanufacturing.Raw_Material_Supplier"
+    operation: ALL
+    resource(r): "org.diemanufacturing.place_order_of_Rawmaterial"
+    transaction(tx): "org.diemanufacturing.delivery_of_rawmaterial"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+
+rule ManufacturerFullAccessToTheirAssets {
+    description: "Allow  participants full access to their assets"
+    participant(p): "org.diemanufacturing.Manufacturer"
+    operation: ALL
+    resource(r): "org.diemanufacturing.*"
+    transaction(tx): "org.diemanufacturing.*"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+
+rule Forger {
+    description: "Allow  participants full access to their assets"
+    participant(p): "org.diemanufacturing.Forger"
+    operation: ALL
+    resource(r): "org.diemanufacturing.Component"
+    transaction: "org.diemanufacturing.supply_stress_relieving"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule HeatTreater {
+    description: "Allow participants full access to their assets"
+    participant(p): "org.diemanufacturing.Heat_Treater"
+    operation: ALL
+    resource(r): "org.diemanufacturing.Component"
+    transaction(tx): "org.diemanufacturing.supply_vaccum_treatment"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule SystemACL {
+    description: "System ACL to permit all access"
+    participant: "org.hyperledger.composer.system.Participant"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}

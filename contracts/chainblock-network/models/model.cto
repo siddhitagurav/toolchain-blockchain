@@ -1,0 +1,139 @@
+namespace org.diemanufacturing
+
+abstract participant Individual identified by id {
+    o String id
+    o String name
+    o String company_name
+    o String email
+    o String phone regex=/[7-9][0-9]{9}/
+    o String address
+}
+
+participant Raw_Material_Supplier extends Individual{
+  
+}
+
+participant Manufacturer extends Individual{
+}
+
+participant Forger extends Individual{
+  
+}
+
+participant Heat_Treater extends Individual{
+  
+}
+
+enum orderStatus
+{
+  o not_initiated  
+  o initiated
+  o confirmed
+  o delivering
+  o delivered
+}
+
+enum rawStatus{
+ o rawstate
+ o transform_to_component
+}
+
+asset Raw_Material identified by raw_material_id{
+ o String raw_material_id
+ o Integer quantity
+ o rawStatus rawStatus
+ o String Type_of_Material
+ o DateTime deliveryDate
+ o orderStatus status 
+ -->Individual owner_raw_material
+}
+
+asset Component identified by component_id{
+  o String component_id
+  o String State
+  o String Process_Stage
+ // o DateTime estimated_time
+  o DateTime expDelivery
+  o DateTime actualDelivery
+  --> Individual owner_component
+}
+
+asset place_order_of_Rawmaterial identified by orderId { 
+    o String orderId 
+    o Integer Qty 
+   // o Double unitPrice
+   // o Double Price
+    o orderStatus status
+    o Integer REPL_Time
+    o DateTime currentDate
+    o DateTime expDeliveryDate
+    o DateTime deliveryDate
+   // o Integer deliveryDate
+    --> Individual owner 
+
+}
+
+
+transaction place_manufacturer_rawmaterial {
+  --> place_order_of_Rawmaterial po1
+  --> Raw_Material_Supplier newowner
+}
+
+transaction supply_rawmaterial{
+ --> Raw_Material raw
+ //--> Manufacturer newowner
+ --> place_order_of_Rawmaterial po1
+}
+
+transaction delivery_of_rawmaterial{
+ --> Raw_Material raw
+ --> Manufacturer newowner
+ --> place_order_of_Rawmaterial po1
+  
+  
+}
+transaction rough_machining{
+ --> Raw_Material raw 
+ --> Component component
+ --> Manufacturer manufacturer_owner
+// o DateTime delivery_time
+o Integer completedDate
+
+}
+
+transaction stress_relieving{
+ --> Component component
+ --> Forger forger_owner
+}
+
+transaction supply_stress_relieving{
+ --> Component component
+ --> Manufacturer manufacturer_owner
+o Integer completedDate
+}
+transaction semi_finishing{
+ --> Component component 
+o Integer completedDate
+}
+
+transaction vaccum_treatment{
+ --> Component component
+ --> Heat_Treater heattreater_owner
+}
+
+transaction supply_vaccum_treatment{
+ --> Component component
+ --> Manufacturer manufacturer_owner
+o Integer completedDate
+}
+
+transaction finishing{
+ --> Component component 
+o Integer completedDate
+} 
+
+transaction final_inspection{
+ --> Component component
+o Integer completedDate
+}
+

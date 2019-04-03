@@ -1,0 +1,94 @@
+query getComponent {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.Component
+}
+
+query getRawMaterial {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.Raw_Material
+}
+
+query getOrders {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.place_order_of_Rawmaterial
+}
+
+query gePlaceOrder {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.place_manufacturer_rawmaterial
+            WHERE (po1 == _$po1)
+}
+
+query getSupplyOrder {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.supply_rawmaterial
+            WHERE (po1 == _$po1)
+}
+
+query getDeliveryRaw {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.delivery_of_rawmaterial
+            WHERE (raw == _$raw)
+}
+
+query getRoughMachining {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.rough_machining
+            WHERE (component == _$component)
+}
+
+query getStressRelieving {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.stress_relieving
+            WHERE (component == _$component)
+}
+
+query getSupplyStressRelieving {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.supply_stress_relieving
+            WHERE (component == _$component)
+}
+
+query getSemiFinishing {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.semi_finishing
+            WHERE (component == _$component)
+}
+
+query getVaccumTreatment {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.vaccum_treatment
+            WHERE (component == _$component)
+}
+
+query getSupplyVaccumTreatment {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.supply_vaccum_treatment
+            WHERE (component == _$component)
+}
+
+query getFinishing {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.finishing
+            WHERE (component == _$component)
+}
+
+query getFinalInspection {
+  	description: "List the transaction details"
+    statement:
+   		 SELECT org.diemanufacturing.final_inspection
+            WHERE (component == _$component)
+}
